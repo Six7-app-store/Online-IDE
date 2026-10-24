@@ -146,7 +146,10 @@ log "nginx einrichten"
 ln -sf "$nginx_conf" /etc/nginx/sites-enabled/online-ide
 rm -f /etc/nginx/sites-enabled/default
 nginx -t
-systemctl reload nginx
+# restart statt reload: reload scheitert, falls nginx nach der Installation
+# nicht gestartet wurde
+systemctl enable nginx
+systemctl restart nginx
 
 # Erst fertig melden, wenn jede IDE über nginx antwortet
 for port in "${ports[@]}"; do
